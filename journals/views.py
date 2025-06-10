@@ -34,7 +34,7 @@ class RequirementsViewSet(viewsets.ModelViewSet):
         manual_parameters=[
             openapi.Parameter(
                 'title', openapi.IN_QUERY,
-                description="Makale başlığına göre filtreleme",
+                description="Filter by article title",
                 type=openapi.TYPE_STRING
             ),
         ]
@@ -76,7 +76,7 @@ class JournalsViewSet(viewsets.ModelViewSet):
         manual_parameters=[
             openapi.Parameter(
                 'title_uz', openapi.IN_QUERY,
-                description="Makale başlığına göre filtreleme",
+                description="Filter by article title",
                 type=openapi.TYPE_STRING
             ),
         ]
@@ -111,7 +111,7 @@ class PapersViewSet(viewsets.ModelViewSet):
         manual_parameters=[
             openapi.Parameter(
                 'title_uz', openapi.IN_QUERY,
-                description="Makale başlığına göre filtreleme",
+                description="filter by article title",
                 type=openapi.TYPE_STRING
             ),
         ]

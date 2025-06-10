@@ -40,7 +40,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         if serializer.is_valid():
             if not self.object.check_password(serializer.data.get("old_password")):
                 return Response(
-                    {"old_password": "Eski parol noto'g'ri."},
+                    {"old_password": "Old password is incorrect."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -48,7 +48,7 @@ class ChangePasswordView(generics.UpdateAPIView):
             self.object.save()
             update_session_auth_hash(request, self.object)
 
-            return Response({"detail": "Parol muvaffaqiyatli yangilandi."})
+            return Response({"detail": "Password updated successfully."})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -93,7 +93,7 @@ class PasswordResetRequestView(APIView):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return Response(
-                {"detail": "Bu email kayıtlı değil."},
+                {"detail": "This email is not registered."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -101,13 +101,13 @@ class PasswordResetRequestView(APIView):
         RESET_CODES[email] = code
 
         send_mail(
-            subject="Şifre Sıfırlama Kodu",
-            message=f"Şifre sıfırlama kodunuz: {code}",
+            subject="Password Reset Code",
+            message=f"Your password reset code is: {code}",
             from_email=None,
             recipient_list=[email],
             fail_silently=False,
         )
-        return Response({"detail": "Kod gönderildi."}, status=status.HTTP_200_OK)
+        return Response({"detail": "Code sent."}, status=status.HTTP_200_OK)
 
 
 class PasswordResetConfirmView(APIView):
@@ -126,7 +126,7 @@ class PasswordResetConfirmView(APIView):
         real_code = RESET_CODES.get(email)
         if real_code is None or real_code != code:
             return Response(
-                {"detail": "Kod geçersiz veya süresi dolmuş."},
+                {"detail": "the code is incorrect or expired."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -134,7 +134,7 @@ class PasswordResetConfirmView(APIView):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return Response(
-                {"detail": "Kullanıcı bulunamadı."},
+                {"detail": "usrer not found."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -144,6 +144,6 @@ class PasswordResetConfirmView(APIView):
         del RESET_CODES[email]
 
         return Response(
-            {"detail": "Şifre başarıyla güncellendi."},
+            {"detail": "Password has been updated successfully."},
             status=status.HTTP_200_OK,
         )
