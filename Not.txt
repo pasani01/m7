@@ -1,0 +1,4 @@
+
+diploy:
+
+https://pasago.pythonanywhere.com/swagger/
